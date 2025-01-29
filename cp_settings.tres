@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="CPSettings" load_steps=2 format=3 uid="uid://baxj3haioka7q"]
+
+[ext_resource type="Script" path="res://addons/cpmanager/cp_settings.gd" id="1_g7t1m"]
+
+[resource]
+script = ExtResource("1_g7t1m")
+cp_folder = "res://Games"
+external_folder = "user://GamePacks"
+build_folder = "res://build"

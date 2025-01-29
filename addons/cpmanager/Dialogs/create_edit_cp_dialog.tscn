@@ -1,0 +1,106 @@
+[gd_scene load_steps=2 format=3 uid="uid://bm580wlplvt2k"]
+
+[ext_resource type="Script" path="res://addons/cpmanager/Dialogs/create_edit_cp_dialog.gd" id="1_amqfh"]
+
+[node name="CreateEditCPDialog" type="ConfirmationDialog"]
+title = "Create Edit Content Pack"
+initial_position = 2
+size = Vector2i(500, 402)
+visible = true
+ok_button_text = "Create"
+script = ExtResource("1_amqfh")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -49.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+columns = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Name:"
+horizontal_alignment = 2
+
+[node name="CPName" type="LineEdit" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Enter Name of Content Pack"
+
+[node name="Label7" type="Label" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Folder Name:"
+horizontal_alignment = 2
+
+[node name="FolderName" type="LineEdit" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Enter Folder name for Content Pack"
+
+[node name="Label2" type="Label" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Author:"
+horizontal_alignment = 2
+
+[node name="AuthorName" type="LineEdit" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Enter Author Name"
+
+[node name="Label3" type="Label" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Version:"
+horizontal_alignment = 2
+
+[node name="VersionString" type="LineEdit" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Enter Version (EG: 1.0.0)"
+
+[node name="Label4" type="Label" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "URL:"
+horizontal_alignment = 2
+
+[node name="UrlString" type="LineEdit" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Enter Content Pack URL"
+
+[node name="Label5" type="Label" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Description:"
+horizontal_alignment = 2
+
+[node name="Description" type="TextEdit" parent="VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Description of Content Pack"
+
+[node name="Label6" type="Label" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Icon Path:"
+horizontal_alignment = 2
+
+[node name="IconPath" type="LineEdit" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Path inside Content Pack folder for the Icon"
+
+[node name="Label8" type="Label" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="SuggestedStruct" type="CheckBox" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+tooltip_text = "Creates a recommended Structure for your Project, which includes folders for Assets, Scenes, and Scripts."
+text = "Create Suggested Structure"

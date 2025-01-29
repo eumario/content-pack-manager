@@ -1,0 +1,141 @@
+[gd_scene load_steps=2 format=3 uid="uid://b6gs3gaptx657"]
+
+[ext_resource type="Script" path="res://addons/cpmanager/Dialogs/cp_manager.gd" id="1_eg3t7"]
+
+[node name="ModManager" type="Window"]
+title = "Mod Manager"
+initial_position = 2
+size = Vector2i(500, 400)
+script = ExtResource("1_eg3t7")
+
+[node name="TabContainer" type="TabContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+current_tab = 1
+
+[node name="Settings" type="PanelContainer" parent="TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Settings"]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="TabContainer/Settings/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+columns = 2
+
+[node name="Label" type="Label" parent="TabContainer/Settings/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Content Pack Folder:"
+horizontal_alignment = 2
+
+[node name="CPFolder" type="HBoxContainer" parent="TabContainer/Settings/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="FolderPath" type="LineEdit" parent="TabContainer/Settings/VBoxContainer/GridContainer/CPFolder"]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Location in File Structure where Content Packs will exist."
+placeholder_text = "Select Path"
+
+[node name="Browse" type="Button" parent="TabContainer/Settings/VBoxContainer/GridContainer/CPFolder"]
+layout_mode = 2
+text = "..."
+
+[node name="Label2" type="Label" parent="TabContainer/Settings/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "External Location:"
+horizontal_alignment = 2
+
+[node name="ExternalFolder" type="LineEdit" parent="TabContainer/Settings/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Folder mapping on the End User's Computer:
+
+res:// - Points to the install path on end user's computer.
+user:// - Points to User Directory as set in Project Settings"
+placeholder_text = "Enter a Directory"
+
+[node name="Label3" type="Label" parent="TabContainer/Settings/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Build Directory:"
+horizontal_alignment = 2
+
+[node name="BuildFolder" type="HBoxContainer" parent="TabContainer/Settings/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="FolderPath" type="LineEdit" parent="TabContainer/Settings/VBoxContainer/GridContainer/BuildFolder"]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Location within file structure, where built content packs will be located."
+placeholder_text = "Select Path"
+
+[node name="Browse" type="Button" parent="TabContainer/Settings/VBoxContainer/GridContainer/BuildFolder"]
+layout_mode = 2
+text = "..."
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Settings/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="SaveSettings" type="Button" parent="TabContainer/Settings/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Save Settings"
+
+[node name="Content Packs" type="PanelContainer" parent="TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Content Packs"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="TabContainer/Content Packs/VBoxContainer"]
+layout_mode = 2
+text = "Currently Detected Mods:"
+
+[node name="CPList" type="Tree" parent="TabContainer/Content Packs/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+columns = 3
+column_titles_visible = true
+hide_folding = true
+hide_root = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Content Packs/VBoxContainer"]
+layout_mode = 2
+
+[node name="CreateCP" type="Button" parent="TabContainer/Content Packs/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Create Pack"
+
+[node name="EditCP" type="Button" parent="TabContainer/Content Packs/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+disabled = true
+text = "Edit Pack"
+
+[node name="RemoveCP" type="Button" parent="TabContainer/Content Packs/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+disabled = true
+text = "Remove Pack"
+
+[node name="BuildCB" type="Button" parent="TabContainer/Content Packs/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+disabled = true
+text = "Build Pack"
