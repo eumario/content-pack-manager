@@ -33,6 +33,7 @@ func _ready() -> void:
 	%CPList.set_column_expand(1,true)
 	%CPList.set_column_expand(2,false)
 	_root = %CPList.create_item()
+	if settings == null: return
 	if settings.cp_folder != "":
 		_scan_cps()
 #endregion
