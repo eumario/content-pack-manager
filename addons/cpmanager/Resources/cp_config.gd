@@ -5,7 +5,8 @@ class_name CPConfig extends Resource
 @export var version : String
 @export var description : String
 @export var url : String
-@export var icon : String
+@export var icon_path : String
+@export var pack_version : String
 
 var SemanticVersion : SemVersion :
 	get(): return SemVersion.from_string(version)

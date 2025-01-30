@@ -12,8 +12,13 @@ config_version=5
 
 config/name="ModularLauncher"
 config/description="Enter an interesting project description here!"
+run/main_scene="res://Scenes/test_scene.tscn"
 config/features=PackedStringArray("4.3")
 config/icon="res://icon.png"
+
+[autoload]
+
+PackManager="*res://addons/cpmanager/pack_manager.gd"
 
 [editor_plugins]
 

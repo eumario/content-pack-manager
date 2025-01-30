@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" path="res://addons/cpmanager/Dialogs/cp_manager.gd" id="1_eg3t7"]
 
-[node name="ModManager" type="Window"]
-title = "Mod Manager"
+[node name="PackManagerDialog" type="Window"]
+title = "Pack Manager"
 initial_position = 2
 size = Vector2i(500, 400)
 script = ExtResource("1_eg3t7")
@@ -16,10 +16,9 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-current_tab = 1
+current_tab = 0
 
 [node name="Settings" type="PanelContainer" parent="TabContainer"]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -45,6 +44,7 @@ size_flags_horizontal = 3
 layout_mode = 2
 size_flags_horizontal = 3
 tooltip_text = "Location in File Structure where Content Packs will exist."
+text = "res://Games"
 placeholder_text = "Select Path"
 
 [node name="Browse" type="Button" parent="TabContainer/Settings/VBoxContainer/GridContainer/CPFolder"]
@@ -63,6 +63,7 @@ tooltip_text = "Folder mapping on the End User's Computer:
 
 res:// - Points to the install path on end user's computer.
 user:// - Points to User Directory as set in Project Settings"
+text = "user://GamePacks"
 placeholder_text = "Enter a Directory"
 
 [node name="Label3" type="Label" parent="TabContainer/Settings/VBoxContainer/GridContainer"]
@@ -79,11 +80,32 @@ size_flags_horizontal = 3
 layout_mode = 2
 size_flags_horizontal = 3
 tooltip_text = "Location within file structure, where built content packs will be located."
+text = "res://build"
 placeholder_text = "Select Path"
 
 [node name="Browse" type="Button" parent="TabContainer/Settings/VBoxContainer/GridContainer/BuildFolder"]
 layout_mode = 2
 text = "..."
+
+[node name="Label4" type="Label" parent="TabContainer/Settings/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Pack Format:"
+horizontal_alignment = 2
+
+[node name="PackFormat" type="OptionButton" parent="TabContainer/Settings/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+selected = 0
+item_count = 2
+popup/item_0/text = "PCK Pack Format"
+popup/item_1/text = "ZIP Pack Format"
+popup/item_1/id = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="TabContainer/Settings/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "[b]**Note**[/b] Make sure that when you create your export settings, that on the Resources Tab, you add your [color=green][b]Pack Folder[/b][/color] and your [color=green][b]Build Directory[/b][/color] to be ignored when exporting your project."
 
 [node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Settings/VBoxContainer"]
 layout_mode = 2
@@ -95,6 +117,7 @@ layout_mode = 2
 text = "Save Settings"
 
 [node name="Content Packs" type="PanelContainer" parent="TabContainer"]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
@@ -109,10 +132,11 @@ text = "Currently Detected Mods:"
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
-columns = 3
+columns = 4
 column_titles_visible = true
 hide_folding = true
 hide_root = true
+select_mode = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Content Packs/VBoxContainer"]
 layout_mode = 2

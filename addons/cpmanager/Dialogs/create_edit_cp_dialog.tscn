@@ -16,8 +16,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 8.0
 offset_top = 8.0
-offset_right = -8.0
-offset_bottom = -49.0
+offset_right = 492.0
+offset_bottom = 353.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -32,16 +32,19 @@ text = "Name:"
 horizontal_alignment = 2
 
 [node name="CPName" type="LineEdit" parent="VBoxContainer/GridContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Enter Name of Content Pack"
 
-[node name="Label7" type="Label" parent="VBoxContainer/GridContainer"]
+[node name="FolderLabel" type="Label" parent="VBoxContainer/GridContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Folder Name:"
 horizontal_alignment = 2
 
 [node name="FolderName" type="LineEdit" parent="VBoxContainer/GridContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Enter Folder name for Content Pack"
@@ -52,6 +55,7 @@ text = "Author:"
 horizontal_alignment = 2
 
 [node name="AuthorName" type="LineEdit" parent="VBoxContainer/GridContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Enter Author Name"
@@ -62,6 +66,7 @@ text = "Version:"
 horizontal_alignment = 2
 
 [node name="VersionString" type="LineEdit" parent="VBoxContainer/GridContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Enter Version (EG: 1.0.0)"
@@ -72,6 +77,7 @@ text = "URL:"
 horizontal_alignment = 2
 
 [node name="UrlString" type="LineEdit" parent="VBoxContainer/GridContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Enter Content Pack URL"
@@ -82,6 +88,7 @@ text = "Description:"
 horizontal_alignment = 2
 
 [node name="Description" type="TextEdit" parent="VBoxContainer/GridContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -93,14 +100,17 @@ text = "Icon Path:"
 horizontal_alignment = 2
 
 [node name="IconPath" type="LineEdit" parent="VBoxContainer/GridContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Path inside Content Pack folder for the Icon"
 
-[node name="Label8" type="Label" parent="VBoxContainer/GridContainer"]
+[node name="SStructLabel" type="Label" parent="VBoxContainer/GridContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="SuggestedStruct" type="CheckBox" parent="VBoxContainer/GridContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Creates a recommended Structure for your Project, which includes folders for Assets, Scenes, and Scripts."
 text = "Create Suggested Structure"
