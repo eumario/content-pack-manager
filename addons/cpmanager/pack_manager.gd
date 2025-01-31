@@ -6,7 +6,7 @@ static var _packs : Array[CachePack] = []
 func _ready() -> void:
 	settings = load("res://cp_settings.tres")
 	if settings == null: return
-	var path = settings.external_folder if !Engine.is_editor_hint() else settings.cp_folder
+	var path = settings.external_folder if !OS.has_feature("editor") else settings.cp_folder
 	_scan_packs(path)
 
 func _create_pack_cache(pack_path : String) -> void:
@@ -18,13 +18,14 @@ func _create_pack_cache(pack_path : String) -> void:
 	_packs.append(pack)
 
 func _scan_packs(path : String) -> void:
-	if Engine.is_editor_hint():
+	if OS.has_feature("editor"):
 		var packs = DirAccess.get_directories_at(path)
 		for pack in packs:
-			if !FileAccess.file_exists(path.path_join(pack).path_join("pack_config.tres")) or \
-				!FileAccess.file_exists(path.path_join(path).path_join("pack_script.gd")):
+			var pack_path = path.path_join(pack)
+			var config = pack_path.path_join("pack_config.tres")
+			var script = pack_path.path_join("pack_script.gd")
+			if not FileAccess.file_exists(config) and not FileAccess.file_exists(script):
 				continue  # Not a Valid Pack
-			var pack_path := path.path_join(pack)
 			_create_pack_cache(pack_path)
 	else:
 		if !DirAccess.dir_exists_absolute(settings.external_folder):
