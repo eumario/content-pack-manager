@@ -1,11 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://b6gs3gaptx657"]
+[gd_scene load_steps=3 format=3 uid="uid://b6gs3gaptx657"]
 
 [ext_resource type="Script" path="res://addons/cpmanager/Dialogs/cp_manager.gd" id="1_eg3t7"]
+[ext_resource type="Script" path="res://addons/cpmanager/Dialogs/build_output.gd" id="2_yuie6"]
 
 [node name="PackManagerDialog" type="Window"]
 title = "Pack Manager"
 initial_position = 2
-size = Vector2i(500, 400)
+size = Vector2i(800, 500)
 script = ExtResource("1_eg3t7")
 
 [node name="TabContainer" type="TabContainer" parent="."]
@@ -16,9 +17,10 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-current_tab = 0
+current_tab = 1
 
 [node name="Settings" type="PanelContainer" parent="TabContainer"]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -95,7 +97,7 @@ horizontal_alignment = 2
 [node name="PackFormat" type="OptionButton" parent="TabContainer/Settings/VBoxContainer/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-selected = 0
+selected = 1
 item_count = 2
 popup/item_0/text = "PCK Pack Format"
 popup/item_1/text = "ZIP Pack Format"
@@ -105,7 +107,9 @@ popup/item_1/id = 1
 layout_mode = 2
 size_flags_vertical = 3
 bbcode_enabled = true
-text = "[b]**Note**[/b] Make sure that when you create your export settings, that on the Resources Tab, you add your [color=green][b]Pack Folder[/b][/color] and your [color=green][b]Build Directory[/b][/color] to be ignored when exporting your project."
+text = "[b]**Note**[/b] Make sure that when you create your export settings, that on the Resources Tab, you add your [color=green][b]Content Pack Folder[/b][/color] and your [color=green][b]Build Directory[/b][/color] to be ignored when exporting your project.
+
+[color=red][b]**NOTE**[/b][/color] Do not touch any exports that have the prefix '[b]pack_[/b]' in their name."
 
 [node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Settings/VBoxContainer"]
 layout_mode = 2
@@ -117,7 +121,7 @@ layout_mode = 2
 text = "Save Settings"
 
 [node name="Content Packs" type="PanelContainer" parent="TabContainer"]
-visible = false
+unique_name_in_owner = true
 layout_mode = 2
 metadata/_tab_index = 1
 
@@ -163,3 +167,20 @@ unique_name_in_owner = true
 layout_mode = 2
 disabled = true
 text = "Build Pack"
+
+[node name="Build Output" type="PanelContainer" parent="TabContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+script = ExtResource("2_yuie6")
+metadata/_tab_index = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Build Output"]
+layout_mode = 2
+
+[node name="History" type="RichTextLabel" parent="TabContainer/Build Output/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+scroll_following = true

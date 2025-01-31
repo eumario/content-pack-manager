@@ -45,6 +45,7 @@ var settings : CPSettings :
 			%ExternalFolder.text = settings.external_folder
 			%BuildFolder.get_node("FolderPath").text = settings.build_folder
 			%PackFormat.selected = settings.format
+			%"Build Output".settings = value
 	get(): return settings
 #endregion
 
@@ -60,10 +61,9 @@ func _ready() -> void:
 	if settings == null:
 		if FileAccess.file_exists("res://cp_settings.tres"):
 			self.settings = load("res://cp_settings.tres") as CPSettings
-			self.settings.setup_local_to_scene()
+			%"Content Packs".visible = true
 	else:
 		self.settings = settings
-		self.settings.setup_local_to_scene()
 	%CPList.set_column_title(0, "")
 	%CPList.set_column_title(1, "Content Pack")
 	%CPList.set_column_title(2, "Author")
@@ -220,7 +220,7 @@ func _handle_dialog_create_cp(dlg) -> void:
 	config.version = dlg.version_string
 	config.url = dlg.url_string
 	config.description = dlg.description
-	config.icon_path = dlg.icon_path
+	config.icon_path = "%s/%s/%s" % [settings.cp_folder, folder, dlg.icon_path]
 	config.pack_version = _cp_version
 	
 	dlg.queue_free()
@@ -292,17 +292,9 @@ func _handle_cp_delete(config : CPConfig, path : String) -> void:
 	_scan_cps()
 
 func _handle_build_cp() -> void:
+	var builder : BuildOuput = %"Build Output"
+	builder.visible = true
 	for config in _checked_cps:
-		var path : String = _checked_cps_paths[_checked_cps.find(config)]
-		var folder_name : String = path.substr(path.rfind("/")+1,-1)
-		var pack_name : String = settings.build_folder.path_join(folder_name)
-		if settings.format == CPSettings.PackFormat.PCK:
-			_build_pck_file(path, config, pack_name)
-		elif settings.format == CPSettings.PackFormat.ZIP:
-			_build_zip_file(path, config, pack_name)
-		else:
-			var dlg = AcceptDialog.new()
-			dlg.title = "Invalid Format"
-			dlg.dialog_text = "Invalid format given, unable to create pack."
-			EditorInterface.popup_dialog_centered(dlg, Vector2i(200,100))
+		builder.start_build(config, _checked_cps_paths[_checked_cps.find(config)])
+		await builder.build_finished
 #endregion
