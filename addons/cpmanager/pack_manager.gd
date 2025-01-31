@@ -44,7 +44,7 @@ func _scan_packs(path : String) -> void:
 			if valid_pack == "": continue # Not a valid pack
 			
 			var folders := DirAccess.get_directories_at(settings.cp_folder)
-			ProjectSettings.load_resource_pack(valid_pack)
+			ProjectSettings.load_resource_pack(valid_pack, false)
 			var pack_folders = Array(DirAccess.get_directories_at(settings.cp_folder)).filter(func(x): return not x in folders)
 			if pack_folders.is_empty(): continue # Not a valid pack
 			var pack_path := settings.cp_folder.path_join(pack_folders[0])
