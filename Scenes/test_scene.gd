@@ -16,11 +16,11 @@ func _ready() -> void:
 func _handle_enable() -> void:
 	var i : Array = %ContentPacks.get_selected_items()
 	if i.size() == 0: return
-	var pack : String = %ContentPacks.get_item_text(i)
+	var pack : String = %ContentPacks.get_item_text(i[0])
 	PackManager.enable_pack(pack)
 
 func _handle_disable() -> void:
 	var i : Array = %ContentPacks.get_selected_items()
 	if i.size() == 0: return
-	var pack : String = %ContentPacks.get_item_text(i)
+	var pack : String = %ContentPacks.get_item_text(i[0])
 	PackManager.disable_pack(pack)
