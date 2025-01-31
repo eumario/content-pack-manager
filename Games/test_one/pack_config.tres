@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="CPConfig" load_steps=2 format=3 uid="uid://c5x5ehbfm1sdx"]
+
+[ext_resource type="Script" path="res://addons/cpmanager/Resources/cp_config.gd" id="1_wwdwk"]
+
+[resource]
+script = ExtResource("1_wwdwk")
+name = "Test One"
+author = "Mario Steele"
+version = "0.0.1"
+description = "Test One Pack"
+url = "https://eumario.dev"
+icon_path = "res://Games/test_one/Assets/test_one.png"
+pack_version = "0.1.0"
