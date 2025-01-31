@@ -12,9 +12,8 @@ func _ready() -> void:
 func _create_pack_cache(pack_path : String) -> void:
 	var pack : CachePack = CachePack.new()
 	pack.config = load(pack_path.path_join("pack_config.tres")) as CPConfig
-	pack.script = load(pack_path.path_join("pack_script.gd"))
-	pack.script_instance = pack.script.new() as PackScript
-	pack.script_instance.pack_config = pack.config
+	pack.instance = load(pack_path.path_join("pack_script.gd")).new()
+	pack.instance.pack_config = pack.config
 	pack.res_path = pack_path
 	_packs.append(pack)
 
@@ -56,44 +55,44 @@ func _get_pack(pack : String) -> CachePack:
 
 func configure_packs(data : Variant) -> void:
 	for pack in _packs:
-		pack.script_instance.configure(data)
+		pack.instance.configure(data)
 
 func configure_pack(pack : String, data : Variant) -> void:
 	var cpack = _get_pack(pack)
 	if cpack:
-		cpack.script_instance.configure(data)
+		cpack.instance.configure(data)
 
 func setup_packs() -> void:
 	for pack in _packs:
-		pack.script_instance.setup()
+		pack.instance.setup()
 
 func setup_pack(pack : String) -> void:
 	var cpack = _get_pack(pack)
 	if cpack:
-		cpack.script_instance.setup()
+		cpack.instance.setup()
 
 func enable_all_packs() -> void:
 	for pack in _packs:
-		pack.script_instance.enable_pack()
+		pack.instance.enable_pack()
 
 func enable_pack(pack : String) -> void:
 	var cpack = _get_pack(pack)
 	if cpack:
-		cpack.script_instance.enable_pack()
+		cpack.instance.enable_pack()
 
 func disable_all_packs() -> void:
 	for pack in _packs:
-		pack.script_instance.disable_pack()
+		pack.instance.disable_pack()
 
 func disable_pack(pack : String) -> void:
 	var cpack = _get_pack(pack)
 	if cpack:
-		cpack.script_instance.disable_pack()
+		cpack.instance.disable_pack()
 
 func is_pack_enabled(pack : String) -> bool:
 	var cpack = _get_pack(pack)
 	if cpack:
-		return cpack.script_instance.is_enabled()
+		return cpack.instance.is_enabled()
 	else:
 		return false
 
@@ -120,6 +119,5 @@ class CachePack:
 	var name : String :
 		get(): return config.name
 	var config : CPConfig
-	var gdscript : GDScript
-	var script_instance : PackScript
+	var instance : PackScript
 	var res_path : String
