@@ -1,39 +1,9 @@
 @tool
 extends Window
 
-const CREATE_EDIT_CP_DLG = preload("res://addons/cpmanager/Dialogs/create_edit_cp_dialog.tscn")
-
 #region Private Variables
-var _root : TreeItem
 var _cp_version : String = "0.1.0"
 var _cp_sem_version : SemVersion = SemVersion.from_string(_cp_version)
-var _checked_cps : Array[CPConfig]
-var _checked_cps_paths : Array[String]
-#endregion
-
-#region Template PackScript
-const _PACK_TEMPLATE_SCRIPT = """extends PackScript
-
-# Is executed when creating the pack script for the first time.
-func _setup() -> void:
-	pass
-
-# Is executed when using PackManager.configure_pack(pack, data)
-func _configure(data : Variant) -> void:
-	pass
-
-# Is executed when using PackManager.enable_pack(pack)
-func _enable_pack() -> void:
-	pass
-
-# Is Executed when using PackManager.disable_pack(pack)
-func _disable_pack() -> void:
-	pass
-
-# Is Executed when using PackManager.is_enabled(pack)
-func _is_enabled() -> bool:
-	return false
-"""
 #endregion
 
 #region Properties
@@ -41,260 +11,36 @@ var settings : CPSettings :
 	set(value):
 		settings = value
 		if get_node_or_null("%BuildFolder") != null and settings != null:
-			%CPFolder.get_node("FolderPath").text = settings.cp_folder
-			%ExternalFolder.text = settings.external_folder
-			%BuildFolder.get_node("FolderPath").text = settings.build_folder
-			%PackFormat.selected = settings.format
+			%Settings.settings = value
+			%"Content Packs".settings = value
 			%"Build Output".settings = value
 	get(): return settings
 #endregion
 
 #region Godot Overrides
 func _ready() -> void:
-	%CPFolder.get_node("Browse").pressed.connect(_handle_cp_folder_browse)
-	%BuildFolder.get_node("Browse").pressed.connect(_handle_build_folder_browse)
-	%SaveSettings.pressed.connect(_handle_save_settings)
-	%CreateCP.pressed.connect(_handle_create_cp)
-	%EditCP.pressed.connect(_handle_edit_cp)
-	%RemoveCP.pressed.connect(_handle_remove_cp)
-	%BuildCB.pressed.connect(_handle_build_cp)
-	if settings == null:
-		if FileAccess.file_exists("res://cp_settings.tres"):
-			self.settings = load("res://cp_settings.tres") as CPSettings
-			%"Content Packs".visible = true
+	var loaded_settings = null
+	if FileAccess.file_exists("res://cp_settings.tres"):
+		loaded_settings = load("res://cp_settings.tres")
+	
+	if loaded_settings != null:
+		if _cp_sem_version.is_newer_than(SemVersion.from_string(loaded_settings.cp_version)):
+			_run_upgrades(loaded_settings)
+		self.settings = loaded_settings
+		%"Content Packs".visible = true
 	else:
-		self.settings = settings
-	%CPList.set_column_title(0, "")
-	%CPList.set_column_title(1, "Content Pack")
-	%CPList.set_column_title(2, "Author")
-	%CPList.set_column_title(3, "Version")
-	%CPList.set_column_expand(0, false)
-	%CPList.set_column_expand(1, true)
-	%CPList.set_column_expand(2, true)
-	%CPList.set_column_expand(3, false)
-	%CPList.item_selected.connect(_handle_cp_item_selected)
-	%CPList.item_edited.connect(_handle_cp_item_checked)
-	%CPList.nothing_selected.connect(_handle_cp_item_selected)
-	%CPList.empty_clicked.connect(func(_x,_y): %CPList.deselect_all())
-	if settings == null: return
-	if _cp_sem_version.is_newer_than(SemVersion.from_string(settings.cp_version)):
-		_run_upgrades()
-	if settings.cp_folder != "":
-		_scan_cps()
+		%Settings.visible = true
+		%Settings.created_settings.connect(_handle_settings_created)
+
 #endregion
 
 #region Private Functions
-func _scan_cps() -> void:
-	%CPList.clear()
-	_root = %CPList.create_item()
-	if !DirAccess.dir_exists_absolute(settings.cp_folder):
-		return
-	for folder in DirAccess.get_directories_at(settings.cp_folder):
-		var cp_folder = settings.cp_folder.path_join(folder)
-		if FileAccess.file_exists(cp_folder.path_join("pack_config.tres")):
-			var res = load(cp_folder.path_join("pack_config.tres")) as CPConfig
-			if res == null:
-				continue
-			var item = _root.create_child()
-			item.set_cell_mode(0,TreeItem.CELL_MODE_CHECK)
-			item.set_editable(0, true)
-			item.set_checked(0,false)
-			item.set_text(1, res.name)
-			item.set_text(2, res.author)
-			item.set_text(3, res.version)
-			item.set_metadata(0, res)
-			item.set_metadata(1, cp_folder)
-
-func _remove_recursive(path : String) -> void:
-	var dirs = DirAccess.get_directories_at(path)
-	var files = DirAccess.get_files_at(path)
-	for file in files:
-		DirAccess.remove_absolute(path.path_join(file))
-	
-	for dir in dirs:
-		_remove_recursive(path.path_join(dir))
-	
-	DirAccess.remove_absolute(path)
-
-func _run_upgrades() -> void:
+func _run_upgrades(the_settings : CPSettings) -> void:
 	pass # First Version, no Upgrading needs to occur.
-
-func _get_all_files(path : String) -> Array[String]:
-	var files = PackedStringArray(Array(DirAccess.get_files_at(path)).map(func(x): return path.path_join(x)))
-	for dir in DirAccess.get_directories_at(path):
-		files.append_array(_get_all_files(path.path_join(dir)))
-	var final_files : Array[String] = []
-	final_files.assign(files)
-	return final_files
-
-func _build_pck_file(path : String, config : CPConfig, pack_name : String) -> void:
-	pack_name += ".pck"
-	var pck = PCKPacker.new()
-	print("Building %s..." % pack_name)
-	pck.pck_start(pack_name)
-	var all_files : Array[String] = _get_all_files(path)
-	for file in all_files:
-		print("Adding file %s to %s..." % [file, pack_name])
-		pck.add_file(file.replace("res://",""), file)
-	pck.flush()
-	print("Completed")
-
-func _build_zip_file(path : String, config : CPConfig, pack_name : String) -> void:
-	pack_name += ".zip"
-	var zip = ZIPPacker.new()
-	print("Building %s..." % pack_name)
-	zip.open(pack_name)
-	var all_files : Array[String] = _get_all_files(path)
-	for file in all_files:
-		print("Adding file %s to %s..." % [file, pack_name])
-		zip.start_file(file.replace("res://",""))
-		zip.write_file(FileAccess.get_file_as_bytes(file))
-		zip.close_file()
-	zip.close()
-	print("Completed")
 #endregion
 
 #region Signal Handlers
-func _handle_cp_folder_browse() -> void:
-	var dlg := EditorFileDialog.new()
-	dlg.file_mode = EditorFileDialog.FILE_MODE_OPEN_DIR
-	dlg.title = "Select Content Pack Folder"
-	dlg.current_path = "res://"
-	dlg.close_requested.connect(func(): dlg.queue_free())
-	dlg.dir_selected.connect(func(path : String): %CPFolder.get_node("FolderPath").text = path)
-	EditorInterface.popup_dialog_centered(dlg, Vector2i(600,400))
-
-func _handle_build_folder_browse() -> void:
-	var dlg := EditorFileDialog.new()
-	dlg.file_mode = EditorFileDialog.FILE_MODE_OPEN_DIR
-	dlg.title = "Select Build Folder"
-	dlg.current_path = "res://"
-	dlg.close_requested.connect(func(): dlg.queue_free())
-	dlg.dir_selected.connect(func(path : String): %BuildFolder.get_node("FolderPath").text = path)
-	EditorInterface.popup_dialog_centered(dlg, Vector2i(600,400))
-
-func _handle_save_settings() -> void:
-	var new_settings : CPSettings
-	if FileAccess.file_exists("res://cp_settings.tres"):
-		new_settings = ResourceLoader.load("res://cp_settings.tres")
-	else:
-		new_settings = CPSettings.new()
-	
-	new_settings.cp_folder = %CPFolder.get_node("FolderPath").text
-	new_settings.external_folder = %ExternalFolder.text
-	new_settings.build_folder = %BuildFolder.get_node("FolderPath").text
-	new_settings.format = %PackFormat.selected as CPSettings.PackFormat
-	new_settings.cp_version = _cp_version
-	ResourceSaver.save(new_settings, "res://cp_settings.tres")
-	
-
-func _handle_cp_item_selected() -> void:
-	var item : TreeItem = %CPList.get_selected()
-	var enabled = item != null
-	%EditCP.disabled = !enabled
-	%RemoveCP.disabled = !enabled
-
-func _handle_cp_item_checked() -> void:
-	var item : TreeItem = %CPList.get_selected()
-	if item.is_checked(0):
-		_checked_cps.append(item.get_metadata(0) as CPConfig)
-		_checked_cps_paths.append(item.get_metadata(1) as String)
-	else:
-		_checked_cps.erase(item.get_metadata(0) as CPConfig)
-		_checked_cps_paths.erase(item.get_metadata(0) as String)
-	%BuildCB.disabled = _checked_cps.size() == 0
-
-func _handle_create_cp() -> void:
-	var dlg = CREATE_EDIT_CP_DLG.instantiate();
-	dlg.edit = false
-	dlg.confirmed.connect(_handle_dialog_create_cp.bind(dlg))
-	dlg.canceled.connect(func(): dlg.queue_free())
-	EditorInterface.popup_dialog_centered(dlg, Vector2i(500,400))
-
-func _handle_dialog_create_cp(dlg) -> void:
-	var config = CPConfig.new()
-	var folder = dlg.folder_name
-	var mkfolders = dlg.suggested_struct
-	config.name = dlg.cp_name
-	config.author = dlg.author_name
-	config.version = dlg.version_string
-	config.url = dlg.url_string
-	config.description = dlg.description
-	config.icon_path = "%s/%s/%s" % [settings.cp_folder, folder, dlg.icon_path]
-	config.pack_version = _cp_version
-	
-	dlg.queue_free()
-	
-	var path = settings.cp_folder.path_join(folder)
-	DirAccess.make_dir_recursive_absolute(path)
-	if mkfolders:
-		DirAccess.make_dir_recursive_absolute(path.path_join("Assets"))
-		DirAccess.make_dir_recursive_absolute(path.path_join("Scenes"))
-		DirAccess.make_dir_recursive_absolute(path.path_join("Scripts"))
-	ResourceSaver.save(config, path.path_join("pack_config.tres"))
-	var file = FileAccess.open(path.path_join("pack_script.gd"), FileAccess.WRITE)
-	file.store_string(_PACK_TEMPLATE_SCRIPT)
-	file.flush()
-	file.close()
-	_scan_cps()
-	EditorInterface.get_resource_filesystem().scan()
-	EditorInterface.get_file_system_dock().navigate_to_path(path)
-
-func _handle_edit_cp() -> void:
-	var item : TreeItem = %CPList.get_selected()
-	var config : CPConfig = item.get_metadata(0) as CPConfig
-	var dlg = CREATE_EDIT_CP_DLG.instantiate();
-	config.setup_local_to_scene()
-	dlg.edit = true
-	dlg.pack_config = config
-	dlg.pack_path = item.get_metadata(1) as String
-	dlg.cp_name = config.name
-	dlg.author_name = config.author
-	dlg.version_string = config.version
-	dlg.url_string = config.url
-	dlg.description = config.description
-	dlg.icon_path = config.icon_path
-	dlg.confirmed.connect(_handle_dialog_edit_cp.bind(dlg))
-	dlg.canceled.connect(func(): dlg.queue_free())
-	EditorInterface.popup_dialog_centered(dlg, Vector2i(500,400))
-
-func _handle_dialog_edit_cp(dlg) -> void:
-	var config : CPConfig = dlg.pack_config
-	var pack_path : String = dlg.pack_path
-	config.setup_local_to_scene()
-	config.name = dlg.cp_name
-	config.author = dlg.author_name
-	config.version = dlg.version_string
-	config.url = dlg.url_string
-	config.description = dlg.description
-	config.icon_path = dlg.icon_path
-	ResourceSaver.save(config, pack_path.path_join("pack_config.tres"))
-	_scan_cps()
-
-func _handle_remove_cp() -> void:
-	var item : TreeItem = %CPList.get_selected()
-	var config : CPConfig = item.get_metadata(0) as CPConfig
-	var path : String = item.get_metadata(1) as String
-	
-	var dlg = ConfirmationDialog.new();
-	dlg.title = "Confirm Delete Content Pack"
-	dlg.dialog_text = "Are you sure you wish to delete '%s' from your project?" % [config.name]
-	dlg.cancel_button_text = "No"
-	dlg.ok_button_text = "Yes"
-	dlg.canceled.connect(func(): dlg.queue_free())
-	dlg.close_requested.connect(func(): dlg.queue_free())
-	dlg.confirmed.connect(_handle_cp_delete.bind(config, path))
-	EditorInterface.popup_dialog_centered(dlg, Vector2i(300,100))
-
-func _handle_cp_delete(config : CPConfig, path : String) -> void:
-	_remove_recursive(path)
-	EditorInterface.get_resource_filesystem().scan()
-	_scan_cps()
-
-func _handle_build_cp() -> void:
-	var builder : BuildOuput = %"Build Output"
-	builder.visible = true
-	for config in _checked_cps:
-		builder.start_build(config, _checked_cps_paths[_checked_cps.find(config)])
-		await builder.build_finished
+func _handle_settings_created(new_settings : CPSettings) -> void:
+	self.settings = new_settings
+	%"Content Packs".visible = true
 #endregion

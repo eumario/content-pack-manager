@@ -1,5 +1,5 @@
 @tool
-class_name BuildOuput extends PanelContainer
+extends PanelContainer
 
 signal build_finished(pack : CPConfig)
 signal build_success(pack : CPConfig)

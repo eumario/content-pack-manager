@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://b6gs3gaptx657"]
+[gd_scene load_steps=5 format=3 uid="uid://b6gs3gaptx657"]
 
 [ext_resource type="Script" path="res://addons/cpmanager/Dialogs/cp_manager.gd" id="1_eg3t7"]
+[ext_resource type="Script" path="res://addons/cpmanager/Dialogs/settings.gd" id="2_7vp5v"]
 [ext_resource type="Script" path="res://addons/cpmanager/Dialogs/build_output.gd" id="2_yuie6"]
+[ext_resource type="Script" path="res://addons/cpmanager/Dialogs/content_packs.gd" id="3_ervsi"]
 
 [node name="PackManagerDialog" type="Window"]
 title = "Pack Manager"
@@ -20,8 +22,9 @@ size_flags_vertical = 3
 current_tab = 0
 
 [node name="Settings" type="PanelContainer" parent="TabContainer"]
-visible = false
+unique_name_in_owner = true
 layout_mode = 2
+script = ExtResource("2_7vp5v")
 metadata/_tab_index = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Settings"]
@@ -118,7 +121,9 @@ text = "Save Settings"
 
 [node name="Content Packs" type="PanelContainer" parent="TabContainer"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
+script = ExtResource("3_ervsi")
 metadata/_tab_index = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Content Packs"]
