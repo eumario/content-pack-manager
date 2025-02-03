@@ -36,6 +36,10 @@ your project for first time run.
 - Build Directory:  This is where the packs will be placed, after building has been completed.
 - Pack Format:  This is the format in which to build your packs for your game, either in PCK, or ZIP format.
 
+> [!WARNING]
+> There is currently no way to mix between both ZIP format, and PCK Format.  Only 1 pack format is supported
+> at a time.
+
 > [!CAUTION]
 > Zip format, is a clear packaging format, that can be opened in any Zip program for viewing, and extraction,
 > where the PCK format is Godot's own packaging format.  While there aren't many programs out there to extract
