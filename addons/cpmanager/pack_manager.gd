@@ -25,6 +25,7 @@ func _create_pack_cache(pack_path : String) -> void:
 	pack.config = load(pack_path.path_join("pack_config.tres")) as CPConfig
 	pack.instance = load(pack_path.path_join("pack_script.gd")).new()
 	pack.instance.pack_config = pack.config
+	pack.instance.pack_path = pack_path
 	pack.res_path = pack_path
 	_packs.append(pack)
 
@@ -67,7 +68,7 @@ func _scan_from_project(path : String, scan_new : bool = false) -> int:
 
 func _scan_packs(path : String) -> void:
 	if OS.has_feature("editor"):
-		_scan_from_editor()
+		_scan_from_editor(path)
 	else:
 		if !DirAccess.dir_exists_absolute(settings.external_folder):
 			DirAccess.make_dir_recursive_absolute(settings.external_folder)

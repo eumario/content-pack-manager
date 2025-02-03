@@ -1,6 +1,7 @@
 class_name PackScript extends RefCounted
 
 var pack_config : CPConfig
+var pack_path : String
 
 #region Virtual Functions
 func _setup() -> void:
