@@ -1,6 +1,6 @@
 # Content Pack Manager
 
-[![Content Pack Manager Icon](addons/cpmanager/content-pack-manager.png)]
+![Content Pack Manager Icon](addons/cpmanager/content-pack-manager.png)
 
 An addon for Godot, allowing the creation of extra content for a game, in the form of:
 - DLC
@@ -13,11 +13,10 @@ mainly cause it is designed to be built in any way that you want.  Without under
 process in Godot, it can be hard to properly get started with creating extra downloadable content.  Because
 of this, I started this addon to be a way to give people an easier way in which to handle extra content.
 
-**$${\color{red}**NOTE**}$$**
-
-This framework is currently meant to be used as a Sandbox Mod / DLC / Addon/Plugin development framework
-as when it loads the pack, it does not overwrite what has been exported in your project.  So keep this in
-mind when working with development and design.
+> [!CAUTION]
+> This framework is currently meant to be used as a Sandbox Mod / DLC / Addon/Plugin development framework
+> as when it loads the pack, it does not overwrite what has been exported in your project.  So keep this in
+> mind when working with development and design.
 
 ## Getting Started (UI)
 
@@ -28,7 +27,7 @@ you will have a New Link under **Project > Tools > Content Pack Manager**.
 Upon first launch in a new Project, the Settings tab will be visible where you can configure your setup for
 your project for first time run.
 
-[![Settings Dialog](screenshots/settings.png)]
+![Settings Dialog](screenshots/settings.png)
 
 ### Fields:
 
@@ -37,28 +36,27 @@ your project for first time run.
 - Build Directory:  This is where the packs will be placed, after building has been completed.
 - Pack Format:  This is the format in which to build your packs for your game, either in PCK, or ZIP format.
 
-**$${\color{red}**NOTE**}$$**
+> [!CAUTION]
+> Zip format, is a clear packaging format, that can be opened in any Zip program for viewing, and extraction,
+> where the PCK format is Godot's own packaging format.  While there aren't many programs out there to extract
+> and view the files in this pack, there are tools to do it.  Also note, that Content Packs are not encrypted,
+> so keep this in mind.
 
-Zip format, is a clear packaging format, that can be opened in any Zip program for viewing, and extraction,
-where the PCK format is Godot's own packaging format.  While there aren't many programs out there to extract
-and view the files in this pack, there are tools to do it.  Also note, that Content Packs are not encrypted,
-so keep this in mind.
-
-[![Settings Dialog Filled out](screenshots/settings-filled.png)]
+![Settings Dialog Filled out](screenshots/settings-filled.png)
 
 Once you have entered your information, take note of the text below the fields as there is important information
 provided in there.  Once you have finished, click Save Settings, and you will be taken to the Content Packs listing.
 
 ## Content Packs
 
-[![Content Packs Listing](screenshots/content-packs.png)]
+![Content Packs Listing](screenshots/content-packs.png)
 
 This is where you will manage the packs for your project.  At the bottom of the window, you will have buttons
 to create, edit, remove, and build packs.  To start, you will create a new pack by pressing the Create Pack
 button.  For each Pack that you want to do, you will create a new pack, and enter details into the new pack
 dialog.
 
-[![Create New Pack](screenshots/create-new-pack.png)]
+![Create New Pack](screenshots/create-new-pack.png)
 
 ### Fields:
 
@@ -75,7 +73,7 @@ Once all information is entered, CPM will create the base folder structure for t
 check Create Suggested Structure, it will create Additional folders for Assets, Scenes and Scripts,
 otherwise, CPM will only create the pack_config.tres and pack_script.gd.
 
-[![Edit Content Pack](screenshots/edit-pack.png)]
+![Edit Content Pack](screenshots/edit-pack.png)
 
 ### Fields:
 
@@ -89,7 +87,7 @@ otherwise, CPM will only create the pack_config.tres and pack_script.gd.
 This will often be used to update / increment the version of the Content Pack, but you can update any
 field provided.
 
-[![Build Content Pack](screenshots/build-pack.png)]
+![Build Content Pack](screenshots/build-pack.png)
 
 When you want to build one or more of the Content Packs, check the box(es) next to each pack you wish
 to build, and press Build Pack to build the Content Pack.
@@ -199,5 +197,6 @@ our packs, and inside our pack, we are registering the new Levels and Maps with 
 to the game, when displaying, and instancing the scenes for our players to be able to play in the game.  As you can see there
 isn't much to creating a content pack, and utilizing it with the rest of your already existing game.
 
-**$${\color{red}**NOTE**}$$**  Currently, C# Projects are not supported by CPM, as there's an Assembly that needs to be loaded
-before the code can be used.  That will come in a later version.
+> [!CAUTION]
+> Currently, C# Projects are not supported by CPM, as there's an Assembly that needs to be loaded
+> before the code can be used.  That will come in a later version.
