@@ -20,3 +20,6 @@ mono_crash.*.json
 
 # Ignore ZIP files
 *.zip
+
+# Ignore build folder
+build/
