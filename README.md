@@ -31,10 +31,10 @@ your project for first time run.
 
 ### Fields:
 
-- Content Pack Folder:  This is the location where your extra content will reside, when building the packs.
-- External Location:  This is where on the End-User's computer, the PackManager will look for content packs.
-- Build Directory:  This is where the packs will be placed, after building has been completed.
-- Pack Format:  This is the format in which to build your packs for your game, either in PCK, or ZIP format.
+- **Content Pack Folder:**  This is the location where your extra content will reside, when building the packs.
+- **External Location:**  This is where on the End-User's computer, the PackManager will look for content packs.
+- **Build Directory:**  This is where the packs will be placed, after building has been completed.
+- **Pack Format:**  This is the format in which to build your packs for your game, either in PCK, or ZIP format.
 
 > [!WARNING]
 > There is currently no way to mix between both ZIP format, and PCK Format.  Only 1 pack format is supported
@@ -64,14 +64,14 @@ dialog.
 
 ### Fields:
 
-- Name: Name of Content Pack
-- Folder Name: Name of folder that will be stored in the Conten Pack Folder.
-- Author: Name of the person creating the content pack
-- Version: Version of the Content Pack
-- URL: URL page for the content pack
-- Description: Descripton of the Content Pack
-- Icon Path: Path to Icon / Artwork for pack.  This would be a relative path to the Content Pack folder.
-- Create Suggested Structure: Creates a suggested folder structure for the pack.
+- **Name:** Name of Content Pack
+- **Folder Name:** Name of folder that will be stored in the Conten Pack Folder.
+- **Author:** Name of the person creating the content pack
+- **Version:** Version of the Content Pack
+- **URL:** URL page for the content pack
+- **Description:** Descripton of the Content Pack
+- **Icon Path:** Path to Icon / Artwork for pack.  This would be a relative path to the Content Pack folder.
+- **Create Suggested Structure:** Creates a suggested folder structure for the pack.
 
 Once all information is entered, CPM will create the base folder structure for the content pack.  If you
 check Create Suggested Structure, it will create Additional folders for Assets, Scenes and Scripts,
@@ -81,12 +81,12 @@ otherwise, CPM will only create the pack_config.tres and pack_script.gd.
 
 ### Fields:
 
-- Name: Name of Content Pack
-- Author: Name of the person creating the content pack
-- Version: Version of the Content Pack
-- URL: URL Page for the Content Pack
-- Description: Description of the Content Pack
-- Icon Path: Path to the Icon / Artwork for the Content Pack
+- **Name:** Name of Content Pack
+- **Author:** Name of the person creating the content pack
+- **Version:** Version of the Content Pack
+- **URL:** URL Page for the Content Pack
+- **Description:** Description of the Content Pack
+- **Icon Path:** Path to the Icon / Artwork for the Content Pack
 
 This will often be used to update / increment the version of the Content Pack, but you can update any
 field provided.
@@ -106,11 +106,11 @@ it to be.  To be as minimal as possible, while offering what is needed to ensure
 initialized for your pack, so that it isn't in your way.
 
 ### Virtual Methods:
-- _setup(): This function is called, to setup everything needed inside your pack to be ready to go.
-- _configure(data : Variant): This function is provided as a way to provide the data needed to initalize your content pack.  Any data can be passed to this method.
-- _enable_pack(): Allows you to establish what is needed to have your Content Pack ready to run.
-- _disable_pack(): Allows you to free up things, that are not needed when the your Content Pack is disabled.
-- _is_enabled(): Let's the pack tell the game if it is enabled or not.
+- **_setup():** This function is called, to setup everything needed inside your pack to be ready to go.
+- **_configure(data : Variant):** This function is provided as a way to provide the data needed to initalize your content pack.  Any data can be passed to this method.
+- **_enable_pack():** Allows you to establish what is needed to have your Content Pack ready to run.
+- **_disable_pack():** Allows you to free up things, that are not needed when the your Content Pack is disabled.
+- **_is_enabled():** Let's the pack tell the game if it is enabled or not.
 
 ## PackManager
 
@@ -123,21 +123,21 @@ any functionality that is needed, when you enable/disable packs.
 
 ### Methods:
 - ### Applies to All Packs
-  - configure_packs(data : Variant): Configure your packs with any data you want.  Can be a single Object / node, or an Array or Dictionary providing all information needed.
-  - setup_packs(): Executes setup() for each pack that is loaded, allowing for setup to be completed for each pack.
-  - enable_all_packs(): Executes enable for all packs that are loaded at runtime.
-  - disable_all_packs(): Executes disable for all packs that are loaded at run time.
+  - **configure_packs(data : Variant):** Configure your packs with any data you want.  Can be a single Object / node, or an Array or Dictionary providing all information needed.
+  - **setup_packs():** Executes setup() for each pack that is loaded, allowing for setup to be completed for each pack.
+  - **enable_all_packs():** Executes enable for all packs that are loaded at runtime.
+  - **disable_all_packs():** Executes disable for all packs that are loaded at run time.
 - ### Applies to specific Packs
-  - configure_pack(pack : String, data : Variant): Same as configure_packs(), but is only executed on the pack of the specified name.
-  - setup_pack(pack : String): Executes setup() for the specific pack that is loaded, allowing setup to be completed for said pack.
-  - enable_pack(pack : String): Executes enable_pack() for the specific pack.
-  - disable_pack(pack : String): Executes disable_pack() for the specific pack.
-  - is_pack_enabled(pack : String): Executes is_enabled() for the specific pack.
+  - **configure_pack(pack : String, data : Variant):** Same as configure_packs(), but is only executed on the pack of the specified name.
+  - **setup_pack(pack : String):** Executes setup() for the specific pack that is loaded, allowing setup to be completed for said pack.
+  - **enable_pack(pack : String):** Executes enable_pack() for the specific pack.
+  - **disable_pack(pack : String):** Executes disable_pack() for the specific pack.
+  - **is_pack_enabled(pack : String):** Executes is_enabled() for the specific pack.
 - ### Generic methods:
-  - get_pack_names(): Returns a list of found pack name strings when loading all packs.
-  - get_pack_config(pack : String): Return the pack's Configuration (CPConfig), which holds the meta data for the pack.
-  - get_pack_path(pack : String): Returns the internal path to the pack's data, EG: res://dlc/my_dlc_pack/
-  - scan_for_new(): Scans for new Packs that haven't been loaded at runtime, returning the number of packs found, if any.
+  - **get_pack_names():** Returns a list of found pack name strings when loading all packs.
+  - **get_pack_config(pack : String):** Return the pack's Configuration (CPConfig), which holds the meta data for the pack.
+  - **get_pack_path(pack : String):** Returns the internal path to the pack's data, EG: res://dlc/my_dlc_pack/
+  - **scan_for_new():** Scans for new Packs that haven't been loaded at runtime, returning the number of packs found, if any.
 
 # Example
 
